@@ -1,8 +1,41 @@
-#include<stdio.h>
+#include "ll.h"
 #include<stdlib.h>
+#include<stdio.h>
 
 // Array of floors
 // Way of moving up and down floors
+
+void append(struct Node **head, int new_data)
+{
+    struct Node * new_node = (struct Node *)malloc(sizeof(struct Node));
+
+    struct Node * last = *head;
+
+    new_node->data = new_data;
+    new_node->next = NULL;
+
+    if(*head == NULL)
+    {
+        *head = new_node;
+        return;
+    }
+
+    while(last->next != NULL)
+    {
+        last = last->next;
+    }
+
+    last->next = new_node;
+}
+
+void print_ll(struct Node * head)
+{
+    while(head != NULL)
+    {
+        printf("%d", head->data);
+        head = head->next;
+    }
+}
 
 int main()
 {
