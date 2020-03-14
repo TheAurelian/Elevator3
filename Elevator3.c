@@ -1,83 +1,76 @@
-#include "ll.h"
-#include<stdlib.h>
-#include<stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-// Array of floors
-// Way of moving up and down floors
+int Current =  1;
+int Repeat = 1;
+int Floors = 0;
+int myArray[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+
+struct Node{
+	int data;
+	struct Node *next;
+    struct Node *prev;
+};
 
 void append(struct Node **head, int new_data)
 {
-    struct Node * new_node = (struct Node *)malloc(sizeof(struct Node));
+	struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
 
-    struct Node * last = *head;
+	struct Node *last = *head;
 
-    new_node->data = new_data;
-    new_node->next = NULL;
+	new_node->data = new_data;
+	new_node->next = NULL;
 
-    if(*head == NULL)
+	if(*head == NULL)
     {
-        *head = new_node;
-        return;
-    }
+        new_node->prev = NULL;
+		*head = new_node;
+		return;
+	}
 
-    while(last->next != NULL)
+	while(last->next != NULL)
     {
-        last = last->next;
-    }
+		last = last->next;
+	}
 
-    last->next = new_node;
+	last->next = new_node;
+    new_node-> prev = last;
+    return;
 }
 
-void print_ll(struct Node * head)
+void print_current (struct Node *n)
 {
-    while(head != NULL)
+    while(n != NULL) 
     {
-        printf("%d", head->data);
-        head = head->next;
+        printf("%d\n", n->data);
+        printf ("You go to floor ");
+        n = n->next;
     }
 }
 
 int main()
 {
-    int myArray[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-    int myFloors[4];
-    int i = 0;
+    struct Node* Controller = NULL;
+    Controller = (struct Node*)malloc(sizeof(struct Node));
+    Controller->next = NULL;
 
-    printf("Which floor would you like to go to first?\n");
-    scanf("%d", &myFloors[0]);
-    if(myFloors[0] > 15)
+    printf("You are currently on floor %d\n", Current);
+    
+    while (Repeat == 1)
     {
-        printf("That is not a valid floor; try again\n");
-        scanf("%d", &myFloors[0]);
-    }
+        printf("Which 3 floors would you like to visit?\n");
 
-    printf("Which floor would you like to go to second?\n");
-    scanf("%d", &myFloors[1]);
-        if(myFloors[1] > 15)
-    {
-        printf("That is not a valid floor; try again\n");
-        scanf("%d", &myFloors[1]);
-    }
+        for(int i = 0; i < 3; i++)
+        {
+            printf("For the next floor?\n");
+            scanf("%d", &Floors);
+            append(&Controller, Floors);
+        }      
 
-    printf("Which floor would you like to go to third?\n");
-    scanf("%d", &myFloors[2]);
-        if(myFloors[2] > 15)
-    {
-        printf("That is not a valid floor; try again\n");
-        scanf("%d", &myFloors[2]);
+    printf("\nWould you like to input more floor locations for the elevator?\n");
+    printf("1: Yes\n");
+    printf("2: No\n");
+    scanf("%d", &Repeat);
     }
-
-    printf("Which floor would you like to go to fourth?\n");
-    scanf("%d", &myFloors[3]);
-        if(myFloors[3] > 15)
-    {
-        printf("That is not a valid floor; try again\n");
-        scanf("%d", &myFloors[3]);
-    }
-
-        for(int i = 0; i < 4; i++)
-    {
-    // Read which floor they are on
-    printf("You go to floor %d \n", myFloors[i]);
-    }
+    print_current(Controller);
 }
